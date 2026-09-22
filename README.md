@@ -17,21 +17,21 @@ Aplicação SPA desenvolvida em react.js, que permite buscar e visualizar obras 
 | RF07 | O sistema deve tratar e exibir mensagens de erro em caso de falha na comunicação com a API |
 | RF08 | O sistema deve permitir paginação ou carregamento de mais resultados |
 
-## Tecnologias utilizadas
+### Tecnologias utilizadas
 
 - React.js - Frontend
 - useReducer — gerenciamento do estado de busca/filtros da aplicação
 - MUI — biblioteca de componentes visuais
 - Art Institute of Chicago API — fonte de dados das obras de arte ([documentação](https://api.artic.edu/docs/))
 
-## API utilizada
+### API utilizada
 
 O projetio consome a [API do Art Institute of Chicago](https://api.artic.edu/docs/), incluindo:
 - Endpoint de busca: `/api/v1/artworks/search`
 - Endpoint de detalhe: `/api/v1/artworks/{id}`
 - IIIF Image API para montagem das URLs de imagem das obras
 
-## Equipe
+### Equipe
 
 | Integrante | Responsabilidade |
 |------------|-------------------|
