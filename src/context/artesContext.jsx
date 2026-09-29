@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from 'react';
 import { buscarArtes } from '../services/artesService';
-import { ACTIONS, artesReducer, initialState } from '../state/arteReducer';
+import { ACTIONS, artesReducer, initialState } from '../state/artesReducer';
 const ArtesContext = createContext();
 
 export function ArtesProvider({ children }) {
