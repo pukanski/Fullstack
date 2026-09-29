@@ -1,8 +1,6 @@
-// src/context/ArtesContext.jsx
 import { createContext, useContext, useReducer } from 'react';
 import { buscarArtes } from '../services/artesService';
 import { ACTIONS, artesReducer, initialState } from '../state/arteReducer';
-
 const ArtesContext = createContext();
 
 export function ArtesProvider({ children }) {
@@ -22,7 +20,7 @@ export function ArtesProvider({ children }) {
         try {
             const json = await buscarArtes(termoAtualizado, paginaParaBuscar);
 
-            console.log('Paginação da API:', json.pagination);
+            //console.log('Paginação da API:', json.pagination);
 
             dispatch({ type: ACTIONS.MUDAR_PAGINA, payload: paginaParaBuscar });
 
@@ -42,13 +40,21 @@ export function ArtesProvider({ children }) {
     }
 
     function mudarPagina(novaPagina) {
+        if (novaPagina < 1 || novaPagina > state.totalPaginas || novaPagina === state.pagina || state.carregando === true) {
+            return
+        }
         buscar(state.termo, novaPagina);
     }
+
+    const temPaginaAnterior = state.pagina > 1;
+    const temProximaPagina = state.pagina < state.totalPaginas;
 
     const value = {
         state,
         buscar,
-        mudarPagina
+        mudarPagina,
+        temPaginaAnterior,
+        temProximaPagina
     };
 
     return (
@@ -65,3 +71,4 @@ export function useArtes() {
     }
     return context;
 }
+
