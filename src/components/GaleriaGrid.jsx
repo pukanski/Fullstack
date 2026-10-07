@@ -9,6 +9,7 @@ import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import { useArtes } from '../context/artesContext.jsx';
 import ObraCard from './ObraCard.jsx';
+import Paginacao from './Paginacao.jsx';
 
 const QUANTIDADE_SKELETONS = 12;
 
@@ -178,6 +179,7 @@ function GaleriaGrid({ onAbrir }) {
           <ObraCard key={obra.id} obra={obra} onAbrir={onAbrir} />
         ))}
       </Box>
+      <Paginacao />
     </section>
   );
 }
