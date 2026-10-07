@@ -46,6 +46,10 @@ export function ArtesProvider({ children }) {
         buscar(state.termo, novaPagina);
     }
 
+    function limparBusca() {
+        dispatch({ type: ACTIONS.LIMPAR_BUSCA });
+    }
+
     const temPaginaAnterior = state.pagina > 1;
     const temProximaPagina = state.pagina < state.totalPaginas;
 
@@ -53,6 +57,7 @@ export function ArtesProvider({ children }) {
         state,
         buscar,
         mudarPagina,
+        limparBusca,
         temPaginaAnterior,
         temProximaPagina
     };

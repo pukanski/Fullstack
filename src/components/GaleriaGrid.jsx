@@ -1,3 +1,7 @@
+import ImageSearchOutlinedIcon from '@mui/icons-material/ImageSearchOutlined';
+import SearchOffOutlinedIcon from '@mui/icons-material/SearchOffOutlined';
+import Chip from '@mui/material/Chip';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,8 +18,98 @@ const gridSx = {
   gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 240px), 1fr))',
 };
 
+// A busca da Cleveland funciona melhor com termos em inglês.
+const SUGESTOES_DE_BUSCA = ['Monet', 'Picasso', 'Rembrandt', 'landscape', 'portrait'];
+
+function EstadoVazio({ termo, onSugestao, onLimpar }) {
+  const buscaSemResultado = Boolean(termo);
+  const Icone = buscaSemResultado ? SearchOffOutlinedIcon : ImageSearchOutlinedIcon;
+
+  return (
+    <Box
+      role="status"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 2,
+        py: 8,
+        px: 3,
+        textAlign: 'center',
+        bgcolor: 'background.paper',
+        border: '2px dashed',
+        borderColor: 'divider',
+        borderRadius: 2,
+      }}
+    >
+      <Box
+        sx={{
+          width: 88,
+          height: 88,
+          borderRadius: '50%',
+          display: 'grid',
+          placeItems: 'center',
+          bgcolor: 'action.hover',
+          color: 'primary.main',
+        }}
+      >
+        <Icone sx={{ fontSize: 48 }} />
+      </Box>
+
+      <Typography variant="h4" component="p">
+        {buscaSemResultado ? 'Nenhuma obra encontrada' : 'Comece pela busca'}
+      </Typography>
+
+      {buscaSemResultado && (
+        <Typography
+          sx={{
+            px: 1.5,
+            py: 0.5,
+            borderRadius: 1,
+            bgcolor: 'action.hover',
+            color: 'secondary.main',
+            fontWeight: 600,
+            wordBreak: 'break-word',
+          }}
+        >
+          “{termo}”
+        </Typography>
+      )}
+
+      <Typography sx={{ color: 'text.secondary', maxWidth: 480 }}>
+        {buscaSemResultado
+          ? 'Confira a grafia, use menos palavras ou tente um termo mais geral.'
+          : 'Digite o nome de um artista ou o título de uma obra.'}
+      </Typography>
+
+      <Box sx={{ mt: 1 }}>
+        <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
+          {buscaSemResultado ? 'Que tal tentar um destes?' : 'Ou comece por uma sugestão:'}
+        </Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+          {SUGESTOES_DE_BUSCA.map((sugestao) => (
+            <Chip
+              key={sugestao}
+              label={sugestao}
+              color="primary"
+              variant="outlined"
+              clickable
+              onClick={() => onSugestao(sugestao)}
+            />
+          ))}
+        </Box>
+      </Box>
+       {buscaSemResultado && (
+        <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={onLimpar} sx={{ mt: 1 }}>
+          Limpar busca
+        </Button>
+      )}
+    </Box>
+  );
+}
+
 function GaleriaGrid({ onAbrir }) {
-  const { state, buscar } = useArtes();
+  const { state, buscar, limparBusca } = useArtes();
   const { obras, carregando, erro, termo, pagina } = state;
 
   if (carregando) {
@@ -51,25 +145,34 @@ function GaleriaGrid({ onAbrir }) {
 
   if (!obras || obras.length === 0) {
     return (
-      <Box sx={{ py: 8, textAlign: 'center' }}>
-        <Typography variant="h5" component="p" sx={{ mb: 1 }}>
-          {termo ? `Nenhuma obra encontrada para “${termo}”` : 'Comece pela busca'}
-        </Typography>
-        <Typography sx={{ color: 'text.secondary' }}>
-          {termo
-            ? 'Tente outro termo ou verifique a grafia.'
-            : 'Digite o nome de um artista, o título de uma obra ou um período.'}
-        </Typography>
-      </Box>
+      <EstadoVazio
+        termo={termo}
+        onSugestao={(sugestao) => buscar(sugestao)}
+        onLimpar={limparBusca}
+      />
     );
   }
 
   return (
     <section>
       {termo && (
+        <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 2,
+          mb: 3,
+        }}
+      >
         <Typography variant="h5" component="h2" sx={{ mb: 3 }}>
-          Resultados para “{termo}”
+        Resultados para “{termo}”
         </Typography>
+        <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={limparBusca}>
+      Voltar ao início
+    </Button>
+     </Box>
       )}
       <Box sx={gridSx}>
         {obras.map((obra) => (
