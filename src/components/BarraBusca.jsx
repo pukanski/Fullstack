@@ -8,6 +8,13 @@ import { useArtes } from '../context/artesContext.jsx';
 function BarraBusca() {
   const { state, buscar } = useArtes();
   const [texto, setTexto] = useState(state.termo ?? '');
+  const [termoAnterior, setTermoAnterior] = useState(state.termo);
+
+  // Mantém o campo em sincronia quando o termo muda fora da barra (ex.: sugestão clicada)
+  if (state.termo !== termoAnterior) {
+    setTermoAnterior(state.termo);
+    setTexto(state.termo ?? '');
+  }
   const termoLimpo = texto.trim();
   const podeBuscar = termoLimpo !== '' && !state.carregando;
 
@@ -37,6 +44,8 @@ function BarraBusca() {
         type="submit"
         variant="contained"
         disabled={!podeBuscar}
+        loading={state.carregando}
+        loadingPosition="start"
         startIcon={<SearchIcon />}
         sx={{ px: 3, flexShrink: 0 }}
       >
