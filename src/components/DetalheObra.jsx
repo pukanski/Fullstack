@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -8,13 +9,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
-import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
+import { useEffect, useState } from 'react';
 import { buscarArtePorId } from '../services/artesService.js';
 
-const urlImagem = (imageId) =>
-  `https://www.artic.edu/iiif/2/${imageId}/full/843,/0/default.jpg`;
-
+// A descrição curatorial do Cleveland vem em wall_description (às vezes null,
+// nem toda obra tem texto). A Cleveland não costuma devolver HTML aqui, mas
+// mantemos a limpeza por segurança.
 function htmlParaTexto(html) {
   if (!html) return '';
   const comQuebras = html.replace(/<\/p>|<br\s*\/?>/gi, '\n');
@@ -22,11 +22,16 @@ function htmlParaTexto(html) {
   return (documento.body.textContent || '').trim();
 }
 
+function nomeDosArtistas(obra) {
+  if (!obra.creators || obra.creators.length === 0) return 'Artista desconhecido';
+  return obra.creators.map((c) => c.description).join(', ');
+}
+
 function DetalheObra({ obraId, onFechar }) {
   const [obra, setObra] = useState(null);
   const [erro, setErro] = useState(null);
   const [tentativa, setTentativa] = useState(0);
-  const [imagemFalhouId, setImagemFalhouId] = useState(null);
+  const [imagemFalhouUrl, setImagemFalhouUrl] = useState(null);
 
   useEffect(() => {
     if (obraId === null) return;
@@ -65,8 +70,10 @@ function DetalheObra({ obraId, onFechar }) {
       </Alert>
     );
   } else if (obraAtual) {
-    const temImagem = Boolean(obraAtual.image_id) && imagemFalhouId !== obraAtual.image_id;
-    const descricao = htmlParaTexto(obraAtual.description);
+    // print = resolução maior que a usada no card (web), melhor para a tela de detalhe
+    const urlImagem = obraAtual.images?.print?.url || obraAtual.images?.web?.url;
+    const temImagem = Boolean(urlImagem) && imagemFalhouUrl !== urlImagem;
+    const descricao = htmlParaTexto(obraAtual.wall_description);
 
     conteudo = (
       <Box
@@ -93,9 +100,9 @@ function DetalheObra({ obraId, onFechar }) {
           {temImagem ? (
             <Box
               component="img"
-              src={urlImagem(obraAtual.image_id)}
+              src={urlImagem}
               alt={obraAtual.title}
-              onError={() => setImagemFalhouId(obraAtual.image_id)}
+              onError={() => setImagemFalhouUrl(urlImagem)}
               sx={{ width: '100%', height: '100%', objectFit: 'contain' }}
             />
           ) : (
@@ -110,16 +117,16 @@ function DetalheObra({ obraId, onFechar }) {
 
         <Box>
           <Typography sx={{ whiteSpace: 'pre-line' }}>
-            {obraAtual.artist_display || 'Artista desconhecido'}
+            {nomeDosArtistas(obraAtual)}
           </Typography>
-          {obraAtual.date_display && (
+          {obraAtual.creation_date && (
             <Typography variant="body2" sx={{ mt: 1, color: 'secondary.main' }}>
-              {obraAtual.date_display}
+              {obraAtual.creation_date}
             </Typography>
           )}
-          {obraAtual.medium_display && (
+          {obraAtual.technique && (
             <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
-              Técnica: {obraAtual.medium_display}
+              Técnica: {obraAtual.technique}
             </Typography>
           )}
           <Typography

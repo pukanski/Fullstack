@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { useState } from 'react';
 import { useArtes } from '../context/artesContext.jsx';
 
 function BarraBusca() {
@@ -28,7 +28,7 @@ function BarraBusca() {
         fullWidth
         type="search"
         label="Buscar obras"
-        placeholder="Artista, título ou período"
+        placeholder="Palavra-chave: artista, título, técnica..."
         autoComplete="off"
         value={texto}
         onChange={(evento) => setTexto(evento.target.value)}

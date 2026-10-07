@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+import { useState } from 'react';
 import BarraBusca from './components/BarraBusca.jsx';
 import DetalheObra from './components/DetalheObra.jsx';
 import GaleriaGrid from './components/GaleriaGrid.jsx';
@@ -15,7 +15,7 @@ function App() {
           Galeria de obras de arte
         </Typography>
         <Typography sx={{ color: 'text.secondary', mt: 0.5, mb: 3 }}>
-          Acervo do Art Institute of Chicago
+          Acervo do Cleveland Museum of Art
         </Typography>
         <BarraBusca />
       </header>

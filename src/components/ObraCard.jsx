@@ -1,13 +1,10 @@
-import { useState } from 'react';
+import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
-
-const urlImagem = (imageId) =>
-  `https://www.artic.edu/iiif/2/${imageId}/full/843,/0/default.jpg`;
+import { useState } from 'react';
 
 const limitarLinhas = (linhas) => ({
   display: '-webkit-box',
@@ -24,9 +21,18 @@ const estiloArea = {
   justifyContent: 'flex-start',
 };
 
+// A Cleveland já entrega a URL da imagem pronta em obra.images.web.url,
+// então não precisamos mais montar a URL manualmente (diferente do Art Institute).
+function nomeDosArtistas(obra) {
+  if (!obra.creators || obra.creators.length === 0) return 'Artista desconhecido';
+  return obra.creators.map((c) => c.description).join(', ');
+}
+
+// onAbrir é opcional: quando existir (tela de detalhe, RF04), o card vira clicável.
 function ObraCard({ obra, onAbrir }) {
   const [imagemFalhou, setImagemFalhou] = useState(false);
-  const temImagem = Boolean(obra.image_id) && !imagemFalhou;
+  const urlImagem = obra.images?.web?.url;
+  const temImagem = Boolean(urlImagem) && !imagemFalhou;
 
   const Area = onAbrir ? CardActionArea : 'div';
   const propsArea = onAbrir ? { onClick: () => onAbrir(obra.id) } : {};
@@ -50,7 +56,7 @@ function ObraCard({ obra, onAbrir }) {
           {temImagem ? (
             <Box
               component="img"
-              src={urlImagem(obra.image_id)}
+              src={urlImagem}
               alt={obra.title}
               loading="lazy"
               onError={() => setImagemFalhou(true)}
@@ -74,11 +80,11 @@ function ObraCard({ obra, onAbrir }) {
             variant="body2"
             sx={{ mt: 0.5, color: 'text.secondary', whiteSpace: 'pre-line', ...limitarLinhas(2) }}
           >
-            {obra.artist_display || 'Artista desconhecido'}
+            {nomeDosArtistas(obra)}
           </Typography>
-          {obra.date_display && (
+          {obra.creation_date && (
             <Typography variant="caption" sx={{ display: 'block', mt: 1, color: 'secondary.main' }}>
-              {obra.date_display}
+              {obra.creation_date}
             </Typography>
           )}
         </CardContent>

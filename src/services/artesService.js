@@ -1,7 +1,11 @@
-const API_URL = "https://api.artic.edu/api/v1" //hardcoded pq ela é pública, então meio que não precisa usar .env para esconder
+const API_URL = "https://openaccess-api.clevelandart.org/api/artworks" //hardcoded pq ela é pública, então meio que não precisa usar .env para esconder
+
+export const ITENS_POR_PAGINA = 50
 
 export async function buscarArtes(termo, pagina = 1) {
-    const buscaUrl = `${API_URL}/artworks/search?q=${encodeURIComponent(termo)}&fields=id,title,artist_display,image_id,date_display&page=${pagina}&limit=50`
+    const pular = (pagina - 1) * ITENS_POR_PAGINA
+
+    const buscaUrl = `${API_URL}/?q=${encodeURIComponent(termo)}&limit=${ITENS_POR_PAGINA}&skip=${pular}&has_image=1`
 
     const resposta = await fetch(buscaUrl)
     if (!resposta.ok) {
@@ -15,7 +19,7 @@ export async function buscarArtes(termo, pagina = 1) {
 }
 
 export async function buscarArtePorId(id) {
-    const buscaId = `${API_URL}/artworks/${id}?fields=id,title,artist_display,date_display,medium_display,description,image_id`
+    const buscaId = `${API_URL}/${id}`
 
     const resposta = await fetch(buscaId)
     if (!resposta.ok) {
