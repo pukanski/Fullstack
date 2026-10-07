@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import BarraBusca from './components/BarraBusca.jsx';
+import DetalheObra from './components/DetalheObra.jsx';
 import GaleriaGrid from './components/GaleriaGrid.jsx';
 
 function App() {
+  const [obraAbertaId, setObraAbertaId] = useState(null);
+
   return (
     <Container component="main" maxWidth="xl" sx={{ py: 5, display: 'grid', gap: 4 }}>
       <header>
@@ -15,7 +19,8 @@ function App() {
         </Typography>
         <BarraBusca />
       </header>
-      <GaleriaGrid />
+      <GaleriaGrid onAbrir={setObraAbertaId} />
+      <DetalheObra obraId={obraAbertaId} onFechar={() => setObraAbertaId(null)} />
     </Container>
   );
 }
