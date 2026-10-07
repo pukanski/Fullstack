@@ -10,7 +10,6 @@ function BarraBusca() {
   const [texto, setTexto] = useState(state.termo ?? '');
   const [termoAnterior, setTermoAnterior] = useState(state.termo);
 
-  // Mantém o campo em sincronia quando o termo muda fora da barra (ex.: sugestão clicada)
   if (state.termo !== termoAnterior) {
     setTermoAnterior(state.termo);
     setTexto(state.termo ?? '');

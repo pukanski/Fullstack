@@ -12,9 +12,6 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { buscarArtePorId } from '../services/artesService.js';
 
-// A descrição curatorial do Cleveland vem em wall_description (às vezes null,
-// nem toda obra tem texto). A Cleveland não costuma devolver HTML aqui, mas
-// mantemos a limpeza por segurança.
 function htmlParaTexto(html) {
   if (!html) return '';
   const comQuebras = html.replace(/<\/p>|<br\s*\/?>/gi, '\n');
@@ -83,7 +80,7 @@ function DetalheObra({ obraId, onFechar }) {
           gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 1fr) minmax(0, 1fr)' },
         }}
       >
-        {/* Passe-partout: a obra aparece inteira, sem corte */}
+        { }
         <Box
           sx={{
             aspectRatio: '1 / 1',

@@ -21,14 +21,11 @@ const estiloArea = {
   justifyContent: 'flex-start',
 };
 
-// A Cleveland já entrega a URL da imagem pronta em obra.images.web.url,
-// então não precisamos mais montar a URL manualmente (diferente do Art Institute).
 function nomeDosArtistas(obra) {
   if (!obra.creators || obra.creators.length === 0) return 'Artista desconhecido';
   return obra.creators.map((c) => c.description).join(', ');
 }
 
-// onAbrir é opcional: quando existir (tela de detalhe, RF04), o card vira clicável.
 function ObraCard({ obra, onAbrir }) {
   const [imagemFalhou, setImagemFalhou] = useState(false);
   const urlImagem = obra.images?.web?.url;
@@ -40,7 +37,7 @@ function ObraCard({ obra, onAbrir }) {
   return (
     <Card sx={{ height: '100%' }}>
       <Area {...propsArea} style={estiloArea}>
-        {/* Passe-partout: a obra aparece inteira, sem corte */}
+        { }
         <Box
           sx={{
             aspectRatio: '1 / 1',

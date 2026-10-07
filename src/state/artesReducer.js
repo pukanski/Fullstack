@@ -3,8 +3,8 @@ export const ACTIONS = {
     SUCESSO_BUSCA: 'SUCESSO_BUSCA',
     FALHA_BUSCA: 'FALHA_BUSCA',
     MUDAR_PAGINA: 'MUDAR_PAGINA',
-    DEFINIR_TERMO: 'DEFINIR_TERMO',   
-    LIMPAR_BUSCA: 'LIMPAR_BUSCA'    
+    DEFINIR_TERMO: 'DEFINIR_TERMO',
+    LIMPAR_BUSCA: 'LIMPAR_BUSCA'
 };
 
 export const initialState = {
@@ -52,7 +52,7 @@ export function artesReducer(state, action) {
                 ...state,
                 termo: action.payload
             };
-            
+
         case ACTIONS.LIMPAR_BUSCA:
             return initialState;
 

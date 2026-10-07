@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer } from 'react';
-import { buscarArtes } from '../services/artesService';
+import { buscarArtes, ITENS_POR_PAGINA } from '../services/artesService';
 import { ACTIONS, artesReducer, initialState } from '../state/artesReducer';
+
 const ArtesContext = createContext();
 
 export function ArtesProvider({ children }) {
@@ -28,7 +29,7 @@ export function ArtesProvider({ children }) {
                 type: ACTIONS.SUCESSO_BUSCA,
                 payload: {
                     obras: json.data,
-                    totalPaginas: json.pagination?.total_pages || 1
+                    totalPaginas: Math.max(1, Math.ceil((json.info?.total ?? 0) / ITENS_POR_PAGINA))
                 }
             });
         } catch (erro) {

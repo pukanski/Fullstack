@@ -1,10 +1,10 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ImageSearchOutlinedIcon from '@mui/icons-material/ImageSearchOutlined';
 import SearchOffOutlinedIcon from '@mui/icons-material/SearchOffOutlined';
-import Chip from '@mui/material/Chip';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import { useArtes } from '../context/artesContext.jsx';
@@ -18,7 +18,6 @@ const gridSx = {
   gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 240px), 1fr))',
 };
 
-// A busca da Cleveland funciona melhor com termos em inglês.
 const SUGESTOES_DE_BUSCA = ['Monet', 'Picasso', 'Rembrandt', 'landscape', 'portrait'];
 
 function EstadoVazio({ termo, onSugestao, onLimpar }) {
@@ -99,7 +98,7 @@ function EstadoVazio({ termo, onSugestao, onLimpar }) {
           ))}
         </Box>
       </Box>
-       {buscaSemResultado && (
+      {buscaSemResultado && (
         <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={onLimpar} sx={{ mt: 1 }}>
           Limpar busca
         </Button>
@@ -157,22 +156,22 @@ function GaleriaGrid({ onAbrir }) {
     <section>
       {termo && (
         <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 2,
-          mb: 3,
-        }}
-      >
-        <Typography variant="h5" component="h2" sx={{ mb: 3 }}>
-        Resultados para “{termo}”
-        </Typography>
-        <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={limparBusca}>
-      Voltar ao início
-    </Button>
-     </Box>
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 2,
+            mb: 3,
+          }}
+        >
+          <Typography variant="h5" component="h2" sx={{ mb: 3 }}>
+            Resultados para “{termo}”
+          </Typography>
+          <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={limparBusca}>
+            Voltar ao início
+          </Button>
+        </Box>
       )}
       <Box sx={gridSx}>
         {obras.map((obra) => (

@@ -5,8 +5,8 @@ const fonteTitulo = '"Newsreader", Georgia, "Times New Roman", serif';
 
 const theme = createTheme({
   palette: {
-    primary: { main: '#2F3E9E', contrastText: '#FFFFFF' }, // azul ultramar
-    secondary: { main: '#7A5C1E' }, // latão, cor de plaquinha de museu
+    primary: { main: '#2F3E9E', contrastText: '#FFFFFF' },
+    secondary: { main: '#7A5C1E' },
     background: { default: '#F4F5F7', paper: '#FFFFFF' },
     text: { primary: '#1B1F2A', secondary: '#4B5263' },
     divider: '#D9DBE1',
